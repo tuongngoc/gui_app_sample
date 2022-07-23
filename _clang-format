@@ -1,0 +1,26 @@
+UseTab: Never
+AccessModifierOffset: -4
+NamespaceIndentation: None
+Cpp11BracedListStyle: true
+IndentWidth: 4
+AllowShortIfStatementsOnASingleLine: false
+IndentCaseLabels: false
+Standard: Cpp11
+ColumnLimit: 80
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: true
+AlignOperands: true
+SpacesInSquareBrackets: false
+SortIncludes: false
+CompactNamespaces: true
+FixNamespaceComments: true
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowShortBlocksOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: All
+AllowShortIfStatementsOnASingleLine: true
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterEnum: false
+  AfterStruct: false
+  SplitEmptyFunction: false
