@@ -10,6 +10,8 @@ git submodule add https://github.com/glfw/glfw extern/glfw
 git submodule add https://github.com/fmtlib/fmt extern/fmt
 
 git submodule add https://github.com/chriskohlhoff/asio extern/asio
+git submodule add https://github.com/epezent/implot extern/implot
+
 
 * To update specific branch
 ---------------------------

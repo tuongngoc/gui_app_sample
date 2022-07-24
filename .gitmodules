@@ -18,3 +18,7 @@
 	path = extern/asio
 	url = https://github.com/chriskohlhoff/asio
 	tags=asio-1-23-0
+[submodule "extern/implot"]
+	path = extern/implot
+	url = https://github.com/epezent/implot
+	tags=v0.13
