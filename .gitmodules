@@ -13,12 +13,12 @@
 [submodule "extern/fmt"]
 	path = extern/fmt
 	url = https://github.com/fmtlib/fmt
-	tags=9.0.0
+	tags=9.1.0
 [submodule "extern/asio"]
 	path = extern/asio
 	url = https://github.com/chriskohlhoff/asio
-	tags=asio-1-23-0
+	tags=asio-1-24-0
 [submodule "extern/implot"]
 	path = extern/implot
 	url = https://github.com/epezent/implot
-	tags=v0.13
+	tags=v0.14
