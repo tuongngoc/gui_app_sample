@@ -80,3 +80,19 @@ target_include_directories(imgui_opengl3 PUBLIC
 target_compile_definitions(imgui_opengl3
                              PUBLIC IMGUI_IMPL_OPENGL_LOADER_GLBINDING3)
 target_link_libraries(imgui_opengl3 PUBLIC imgui glbinding)
+
+# ------ VULKAN -------
+add_library(imgui_vulkan)
+target_sources(imgui_vulkan
+  PUBLIC
+    imgui/backends/imgui_impl_vulkan.h
+  PRIVATE
+    imgui/backends/imgui_impl_vulkan.cpp
+)
+add_library(imgui::vulkan ALIAS imgui_vulkan)
+target_include_directories(imgui_vulkan PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/imgui/backends>
+  $<INSTALL_INTERFACE:include>
+)
+target_compile_definitions(imgui_vulkan PUBLIC -DImTextureID=ImU64)
+target_link_libraries(imgui_vulkan PUBLIC imgui Vulkan::Vulkan)
