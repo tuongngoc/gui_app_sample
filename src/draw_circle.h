@@ -139,5 +139,17 @@ void DrawPoints(const std::vector<LatLonPoint>& points, ImU32 color = IM_COL32(0
             // Draw the inner flashing circle
             draw_list->AddCircleFilled(screen_pos, 4.0f, inner_flashing_color); // Flashing inner circle
         }
-    }
+
+        //------------------------
+        // Display tooltip if mouse is hovering over the circle
+        if (ImGui::IsMouseHoveringRect(
+                ImVec2(screen_pos.x - 5.0f, screen_pos.y - 5.0f), 
+                ImVec2(screen_pos.x + 5.0f, screen_pos.y + 5.0f))) {
+            ImGui::BeginTooltip();
+            ImGui::Text("Latitude: %.6f", point.lat);
+            ImGui::Text("Longitude: %.6f", point.lon);
+            ImGui::EndTooltip();
+        }
+        //----------end tooltip display-----------
+    }//end, for
 }
