@@ -212,55 +212,44 @@ int main(int, char**)
         if (show_another_window)
         {
             ImGui::Begin("Map Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-            //ImGui::Text("Hello from another window!");
-            //ImGui::Begin("Map Window");
-            //DrawCircleAtLatLon(37.7749f, -122.4194f); // Example: San Francisco coordinates
+            // draw dots GPS positions
 
-           DrawCircleAtLatLon_Color(33.01799, -117.09551, IM_COL32(255, 255, 0, 255)); //GA location
+            static bool new_point = true;
+            static std::vector<LatLonPoint> points;
+            if (new_point){
+               points.push_back({33.01733f, -117.09451f});
+               points.push_back({33.01726f, -117.09439f});
+               points.push_back({33.01848f, -117.0990f});
+               points.push_back({33.01948f, -117.1090f});
+               //another point
+               points.push_back({33.017377f, -117.094455f});
+               points.push_back({33.017283f, -117.094565f});
+               points.push_back({33.017307f, -117.094335f});
+               // 5m apart
+               points.push_back({33.0173049f, -117.09439f});
+               points.push_back({33.0172151f, -117.09439f});
+               points.push_back({33.01726f, -117.0943365f});
+               points.push_back({33.01726f, -117.0944435f});
+            
+               //points.push_back({33.01732f, -119.19477f});
+               new_point = false;
+            }
+             // Draw the points
+             DrawPoints(points,  IM_COL32(0, 255, 0, 255), true); //draw green and flashing
 
-           DrawCircleAtLatLon_Color(33.02999, -115.1265, IM_COL32(0, 255, 0, 255)); //GA location2
+            static bool new_point_inactive = true;
+            static std::vector<LatLonPoint> _no_ligh_points;
+            if (new_point_inactive){
+               _no_ligh_points.push_back({33.01830f, -117.09504f});
+               _no_ligh_points.push_back({33.018316314f, -117.095040728f});
+               _no_ligh_points.push_back({ 33.018291220f,-117.095047982f});
+               _no_ligh_points.push_back({33.018300857f, -117.095029241f});
+               _no_ligh_points.push_back({33.018310432f, -117.095059743f});
+               _no_ligh_points.push_back({33.018295123f,-117.095050329f});
+               new_point_inactive = false;
+            }
+            DrawPoints(_no_ligh_points,  IM_COL32(255, 255, 255, 255)); //draw white
 
-            //+++DrawCircleAtLatLon(33.06787, -116.66018); //GA Filed test location
-            //DrawCircleAtLatLon(33.06787, -115.66018); //GA Filed test location
-
-
-
-
-#if 0
-            //===TEST CODE HERE===========
-            // Get the current ImGui window's draw list
-            ImDrawList* draw_list = ImGui::GetWindowDrawList();
-
-            // Get the current ImGui cursor position
-            ImVec2 p = ImGui::GetCursorScreenPos();
-
-            // Define the center position and radius of the circle
-            //ImVec2 center = ImGui::GetCursorScreenPos();
-            //ImVec2 center = ImVec2 (5.0f, 10.20f);
-            //ImVec2 center = ImGui::GetMainViewport()->GetCenter();
-
-            float radius = 20.0f;
-
-            // Define the color (RGBA)
-            ImU32 color = IM_COL32(255, 0, 0, 255); // Red color
-
-            // Draw the filled circle
-           // draw_list->AddCircleFilled(center, radius, color);  
-            // Draw a red circle
-            //draw_list->AddCircleFilled(ImVec2(p.x + 50, p.y + 50), 30.0f, IM_COL32(255, 0, 0, 255));
-            draw_list->AddCircleFilled(ImVec2(p.x + 250, p.y + 250), 10.0f, IM_COL32(255, 0, 0, 255));
-
-            // Draw a 3 pixel thick yellow line
-            //draw_list->AddLine(ImVec2(p.x, p.y), ImVec2(p.x + 100.0f, p.y + 100.0f), IM_COL32(255, 255, 0, 255), 3.0f);
-            //+++Amy draw another circle yellow
-            draw_list->AddCircleFilled(ImVec2(p.x + 10, p.y + 10), 10.0f, IM_COL32(255, 255, 0, 255));
-            draw_list->AddCircleFilled(ImVec2(p.x + 100, p.y + 100), 10.0f, IM_COL32(0, 255, 0, 255));
-
-            // Advance the ImGui cursor to claim space in the window (otherwise the window will appear small and needs to be resized)
-            ImGui::Dummy(ImVec2(500, 500));
-
-            //==========END TEST CODE========
-#endif
 
             if (ImGui::Button("Close Me"))
                 show_another_window = false;
