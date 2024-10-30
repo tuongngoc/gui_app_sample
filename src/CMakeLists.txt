@@ -35,3 +35,9 @@ if(MSVC)
         "/ignore:4099" "/ignore:4199" "/ENTRY:mainCRTStartup" "/SUBSYSTEM:WINDOWS"
     )
 endif()
+
+add_custom_command(TARGET viwer_app POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_CURRENT_SOURCE_DIR}/data"
+        $<TARGET_FILE_DIR:viwer_app>/data
+)

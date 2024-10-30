@@ -9,6 +9,11 @@
 #include "draw_circle.h" //Amy test code Draw
 #include <stdio.h>
 
+
+ #define STB_IMAGE_IMPLEMENTATION
+   #include "stb_image.h" // Ensure stb_image.h is in your project directory
+
+
 //---------------------------------------------------------------
 // About Desktop OpenGL function loaders:
 //  Modern desktop OpenGL doesn't have a standard portable header file to load
@@ -50,6 +55,38 @@ static void glfw_error_callback(int error, const char* description)
 {
     fprintf(stderr, "Glfw Error %d: %s\n", error, description);
 }
+
+//==================================
+// Global texture for the map
+GLuint map_texture;
+int map_image_width, map_image_height;
+
+// Load a PNG image as an OpenGL texture
+bool LoadMapTexture(const char* filename) {
+    int channels;
+    unsigned char* data = stbi_load(filename, &map_image_width, &map_image_height, &channels, 4);
+    if (!data) return false;
+
+    glGenTextures(1, &map_texture);
+    glBindTexture(GL_TEXTURE_2D, map_texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, map_image_width, map_image_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    stbi_image_free(data);
+    return true;
+}
+
+void Initialize_background() {
+    if (!LoadMapTexture("data/map_sat.png")) {
+        ImGui::Text("\n --Failed to load map texture! \n");
+    }
+}
+
+void Cleanup_background() {
+    glDeleteTextures(1, &map_texture);
+}
+
 
 int main(int, char**)
 {
@@ -165,6 +202,8 @@ int main(int, char**)
     bool show_demo_window = true;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    //+++AMY added
+    Initialize_background();
 
     // Main loop
     while (!glfwWindowShouldClose(window))
@@ -211,16 +250,24 @@ int main(int, char**)
         // 3. Show another simple window.
         if (show_another_window)
         {
-            ImGui::Begin("Map Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+            //ImGui::Begin("Map Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+             // Set up a window with no padding to display the background
+             //ImGui::SetNextWindowPos(ImVec2(0, 0));
+            // ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+             ImGui::Begin("Map Window", &show_another_window);
+
+             //ImGui::Begin("Map Window", &show_another_window, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+
             // draw dots GPS positions
+            //ImGui::Image((void*)(intptr_t)map_texture, ImGui::GetIO().DisplaySize);
+             ImGui::Image((ImTextureID)(intptr_t)map_texture, ImGui::GetIO().DisplaySize);
 
             static bool new_point = true;
             static std::vector<LatLonPoint> points;
             if (new_point){
                points.push_back({33.01733f, -117.09451f});
                points.push_back({33.01726f, -117.09439f});
-               points.push_back({33.01848f, -117.0990f});
-               points.push_back({33.01948f, -117.1090f});
+               points.push_back({33.01746f, -117.0944435f});
                //another point
                points.push_back({33.017377f, -117.094455f});
                points.push_back({33.017283f, -117.094565f});
@@ -229,8 +276,7 @@ int main(int, char**)
                points.push_back({33.0173049f, -117.09439f});
                points.push_back({33.0172151f, -117.09439f});
                points.push_back({33.01726f, -117.0943365f});
-               points.push_back({33.01726f, -117.0944435f});
-            
+           
                //points.push_back({33.01732f, -119.19477f});
                new_point = false;
             }
@@ -246,6 +292,8 @@ int main(int, char**)
                _no_ligh_points.push_back({33.018300857f, -117.095029241f});
                _no_ligh_points.push_back({33.018310432f, -117.095059743f});
                _no_ligh_points.push_back({33.018295123f,-117.095050329f});
+               _no_ligh_points.push_back({33.01848153f, -117.0990123f});
+              // _no_ligh_points.push_back({33.01948f, -117.1090f});
                new_point_inactive = false;
             }
             DrawPoints(_no_ligh_points,  IM_COL32(255, 255, 255, 255)); //draw white
